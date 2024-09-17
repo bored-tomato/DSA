@@ -5,7 +5,7 @@ class SinglyLinkedList:
         self.count = 0
         self.head = head
     
-    def find(self, target_key):
+    def traverse(self, target_key):
         temp = self.head
         target_node = None
 
@@ -18,14 +18,13 @@ class SinglyLinkedList:
         return target_node if target_node else None
 
     def insert_at_head(self, key, val):
-        self.count += 1
         new_node = Node(key, val)
         new_node.next = self.head
         self.head = new_node
+        self.count += 1
 
     def insert_after(self, target_key, key, val):
-        temp = self.head
-        target_node = self.find(target_key)
+        target_node = self.traverse(target_key)
 
         if (not target_node):
             return
@@ -33,6 +32,7 @@ class SinglyLinkedList:
         new_node = Node(key, val)
         new_node.next = target_node.next
         target_node.next = new_node
+        self.count += 1
     
     def insert_at_end(self, key, val):
         temp = self.head
@@ -46,17 +46,16 @@ class SinglyLinkedList:
 
         new_node = Node(key,val)
         temp.next = new_node
+        self.count += 1
 
     def remove_from_head(self):
         if(not self.head): return
 
         newHead = self.head.next
         self.head = newHead
-        
         self.count -= 1
 
     def remove_from_middle(self, target_key):
-
         if(not(self.head)): return
 
         temp = self.head
@@ -71,7 +70,6 @@ class SinglyLinkedList:
         if(not(target_node)): return
 
         temp.next = target_node.next
-
         self.count -= 1
 
     def remove_from_end(self):
@@ -85,7 +83,6 @@ class SinglyLinkedList:
             second_last = second_last.next
 
         second_last.next = None
-
         self.count -= 1
 
     def is_empty(self):
