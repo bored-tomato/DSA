@@ -38,9 +38,7 @@ class LinkedList:
     def traverse_backward(self, target_key):
         return self._traverse(target_key, self.tail, self._traverse_backward_operation)
 
-    def insert_at_head(self, key, val):
-        new_node = Node(key,val)
-        
+    def insert_at_head(self, new_node):
         if not(self.head or self.tail):
             self.head, self.tail = new_node, new_node
         else:
@@ -48,16 +46,17 @@ class LinkedList:
             self.head = new_node
         self.count += 1
 
-    def insert_after(self, target_key, key, val):
+        return new_node
+
+    def insert_after(self, target_key, new_node):
         target_node = self.traverse_forward(target_key)
 
         if not(target_node):
-            return
+            return None
 
         if(self.tail == target_node):
-            self.insert_at_end(key, val)
+            self.insert_at_end(new_node)
         else:
-            new_node = Node(key,val)
             new_node.prev, new_node.next = target_node, target_node.next
             target_node.next = new_node
 
@@ -65,10 +64,9 @@ class LinkedList:
                 new_node.next.prev = new_node
 
         self.count += 1
+        return new_node
     
-    def insert_at_end(self, key, val):
-        new_node = Node(key,val)
-
+    def insert_at_end(self, new_node):
         if not(self.head or self.tail):
             self.head, self.tail = new_node, new_node
         else:
@@ -78,35 +76,43 @@ class LinkedList:
             self.tail = new_node
 
         self.count += 1
+        return new_node
 
     def remove_from_head(self):
+        removed_node = self.head
         if(self.head == self.tail):
             self.head, self.tail = None, None
         else:
             new_head = self.head.next
             new_head.prev = None
             self.head = new_head
+
         self.count -= 1
+        return removed_node
 
     def remove_from_middle(self, target_key):
         target_node = self.traverse_forward(target_key)
 
-        if not(target_node): return
-        if target_node == self.tail:
-            self.remove_from_tail()
-            return
-
-        target_node.prev.next, target_node.next.prev = target_node.next, target_node.prev
+        if not(target_node): return None
+        elif target_node == self.head: self.remove_from_head()
+        elif target_node == self.tail: self.remove_from_tail()
+        else: target_node.prev.next, target_node.next.prev = target_node.next, target_node.prev
+        
         self.count -= 1
+        return target_node
 
     def remove_from_tail(self):
+        removed_node = self.tail
+
         if(self.head == self.tail):
             self.head, self.tail = None, None
         else:
             new_tail = self.tail.prev
             new_tail.next = None
             self.tail = self.tail.prev
+
         self.count -= 1
+        return removed_node
 
     def is_empty(self):
         return True if self.count == 0 else False
