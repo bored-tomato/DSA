@@ -1,13 +1,3 @@
-class Node:
-    def __init__(self, key, val, prev = None, next = None):
-        self.key = key
-        self.val = val
-        self.prev = prev
-        self.next = next
-        
-    def __str__(self):
-        return f"({self.key}:{self.val})"
-    
 class LinkedList:
     def __init__(self, head = None):
         self.count = 0
@@ -20,23 +10,23 @@ class LinkedList:
     def _traverse_backward_operation(self, node):
         return node.prev if node else None
     
-    def _traverse(self, target_key, start_node, _traverse_op_cb):
+    def _traverse(self, target, start_node, _traverse_op_cb):
         temp = start_node
         target_node = None
 
         while(temp):
-            if(temp.key == target_key):
+            if(temp.val == target):
                 target_node = temp
                 break
             temp = _traverse_op_cb(temp)
 
         return target_node if target_node else None
     
-    def traverse_forward(self, target_key):
-        return self._traverse(target_key, self.head, self._traverse_forward_operation)
+    def traverse_forward(self, target):
+        return self._traverse(target, self.head, self._traverse_forward_operation)
     
-    def traverse_backward(self, target_key):
-        return self._traverse(target_key, self.tail, self._traverse_backward_operation)
+    def traverse_backward(self, target):
+        return self._traverse(target, self.tail, self._traverse_backward_operation)
 
     def insert_at_head(self, new_node):
         if not(self.head or self.tail):
@@ -48,8 +38,8 @@ class LinkedList:
 
         return new_node
 
-    def insert_after(self, target_key, new_node):
-        target_node = self.traverse_forward(target_key)
+    def insert_after(self, target, new_node):
+        target_node = self.traverse_forward(target)
 
         if not(target_node):
             return None
@@ -90,8 +80,8 @@ class LinkedList:
         self.count -= 1
         return removed_node
 
-    def remove_from_middle(self, target_key):
-        target_node = self.traverse_forward(target_key)
+    def remove_from_middle(self, target):
+        target_node = self.traverse_forward(target)
 
         if not(target_node): return None
         elif target_node == self.head: self.remove_from_head()
