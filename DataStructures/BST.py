@@ -1,5 +1,4 @@
-from Stack import Stack
-from Queue import Queue
+from collections import deque
 
 class TreeNode:
     def __init__(self, val, left = None, right = None):
@@ -43,42 +42,42 @@ class TreeNode:
     @staticmethod
     def inorder_traversal_iterative(node, cb = None):
         curr = node
-        stack = Stack()
+        stack = deque()
 
         while(True):
             if curr:
-                stack.push(curr)
+                stack.append(curr)
                 curr = curr.left
-            elif not(stack.is_empty()):
+            elif stack:
                 curr = stack.pop()
                 cb(curr) if cb else print(curr, end=" ")
-                curr = curr.val.right
+                curr = curr.right
             else: break
 
     @staticmethod
     def preorder_traversal_iterative(node, cb = None):
         curr = node
-        stack = Stack()
+        stack = deque()
         while True:
             if curr:
                 cb(curr) if cb else print(curr, end=" ")
-                stack.push(curr)
+                stack.append(curr)
                 curr = curr.left
-            elif not(stack.is_empty()):
+            elif stack:
                 curr = stack.pop()
-                curr = curr.val.right
+                curr = curr.right
             else: break
 
     @staticmethod
     def level_order_traversal(node, cb = None):
         curr = None
-        queue = Queue(node)
+        queue = deque([node])
 
-        while not(queue.is_empty()):
-            curr = queue.dequeue().val
+        while queue:
+            curr = queue.popleft()
             cb(curr) if cb else print(curr, end=" ")
-            queue.enqueue(curr.left) if curr.left else None
-            queue.enqueue(curr.right) if curr.right else None
+            queue.append(curr.left) if curr.left else None
+            queue.append(curr.right) if curr.right else None
                 
 
     def __str__(self):
