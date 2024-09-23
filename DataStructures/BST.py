@@ -40,7 +40,7 @@ class TreeNode:
             cb(node) if cb else print(node, end=" ")
 
     @staticmethod
-    def inorder_traversal_iterative(node):
+    def inorder_traversal_iterative(node, cb = None):
         curr = node
         stack = Stack()
 
@@ -50,10 +50,23 @@ class TreeNode:
                 curr = curr.left
             elif not(stack.is_empty()):
                 curr = stack.pop()
-                print(curr, end = " ")
+                cb(curr) if cb else print(curr, end=" ")
                 curr = curr.val.right
-            else:
-                break
+            else: break
+
+    @staticmethod
+    def preorder_traversal_iterative(node, cb = None):
+        curr = node
+        stack = Stack()
+        while True:
+            if curr:
+                cb(curr) if cb else print(curr, end=" ")
+                stack.push(curr)
+                curr = curr.left
+            elif not(stack.is_empty()):
+                curr = stack.pop()
+                curr = curr.val.right
+            else: break
 
 
     def __str__(self):
