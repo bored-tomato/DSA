@@ -2,7 +2,7 @@ import LinkedList
 from Node import LinkedNode
 
 class Queue:
-    def __init__(self, value = None) -> None:
+    def __init__(self, value=None):
         if value: self.ll = LinkedList.LinkedList(LinkedNode(value))
         else: self.ll = LinkedList.LinkedList()
 

@@ -1,8 +1,10 @@
 class LinkedList:
     def __init__(self, head = None):
-        self.count = 0
         self.head = head
         self.tail = head
+
+        if self.head: self.count = 1
+        else: self.count = 0
 
     def _traverse_forward_operation(self, node):
         return node.next if node else None

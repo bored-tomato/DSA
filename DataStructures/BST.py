@@ -1,4 +1,5 @@
 from Stack import Stack
+from Queue import Queue
 
 class TreeNode:
     def __init__(self, val, left = None, right = None):
@@ -68,6 +69,17 @@ class TreeNode:
                 curr = curr.val.right
             else: break
 
+    @staticmethod
+    def level_order_traversal(node, cb = None):
+        curr = None
+        queue = Queue(node)
+
+        while not(queue.is_empty()):
+            curr = queue.dequeue().val
+            cb(curr) if cb else print(curr, end=" ")
+            queue.enqueue(curr.left) if curr.left else None
+            queue.enqueue(curr.right) if curr.right else None
+                
 
     def __str__(self):
         return f"{self.val}"
