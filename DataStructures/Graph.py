@@ -1,4 +1,5 @@
 from copy import deepcopy
+from collections import deque
 
 class Graph:
     def __init__(self, edge_list = None, directed = False, weighted = False):
@@ -47,5 +48,20 @@ class Graph:
                 self.remove_edge(src_node, node)
 
 
+    def breadth_first_search(self, starting_node, cb = None):
+        visited = set(starting_node)
+        queue = deque([starting_node])
+        
+        while queue:
+            vertex = queue.popleft()
+            cb(vertex) if cb else print(vertex, end=" ")
+
+            if vertex in self.edge_list:
+                for neighbor in self.edge_list[vertex].keys():
+                    if not(neighbor in visited):
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+                
+            
     def __str__(self):
         return str(dict(self.edge_list))
