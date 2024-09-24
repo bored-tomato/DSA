@@ -10,3 +10,11 @@ class LinkedNode(Node):
         
     def __str__(self):
         return f"{self.val}"
+    
+class GraphNode(Node):
+    def __init__(self, key, val):
+        super().__init__(val)
+        self.key = key
+
+    def __str__(self):
+        return f"{self.key}: {self.val}"
