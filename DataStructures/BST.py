@@ -78,7 +78,6 @@ class TreeNode:
             cb(curr) if cb else print(curr, end=" ")
             queue.append(curr.left) if curr.left else None
             queue.append(curr.right) if curr.right else None
-                
 
     def __str__(self):
         return f"{self.val}"
