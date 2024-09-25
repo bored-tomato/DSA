@@ -1,3 +1,4 @@
+import heapq
 from copy import deepcopy
 from collections import deque
 
@@ -14,6 +15,7 @@ class Graph:
         if vertices:
             for node in vertices:
                 self.add_node(node)
+                # self.edges[node.key] = {}
 
         if edges:
             for src_node_key, dest_node_key, *weight in edges:
@@ -92,6 +94,31 @@ class Graph:
                         visited.add(neighbor)
                         stack.append(neighbor)
             
+    def shortest_path_djikstra(self, src_node_key):
+        visited_vertices = set()
+
+        shortest_paths = {node_key: {"previous_node_key": None, "shortest_distance": float("inf")} for node_key in self.vertices}
+        shortest_paths[src_node_key] = {"previous_node_key": None, "shortest_distance": 0}
+
+        pq = [(0, src_node_key)]
+
+        while pq:
+            current_distance, current_node = heapq.heappop(pq)
+
+            if current_node in visited_vertices:
+                continue
+
+            visited_vertices.add(current_node)
+
+            for neighbor_key, edge_weight in self.edges[current_node].items():
+                distance = current_distance + edge_weight
+                if distance < shortest_paths[neighbor_key]["shortest_distance"]:
+                    shortest_paths[neighbor_key]["shortest_distance"] = distance
+                    shortest_paths[neighbor_key]["previous_node_key"] = current_node
+                    heapq.heappush(pq, (distance, neighbor_key))
+
+        return shortest_paths
+
     def __str__(self):
         result = []
         if self.vertices and self.edges:
